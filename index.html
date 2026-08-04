@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Possessives (Spotlight 5)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Comic Neue', cursive; background: #fff5e6; padding: 10px; display: flex; justify-content: center; }
+        
+        .page { 
+            max-width: 210mm; width: 100%; background: #fff; border-radius: 20px; padding: 15px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        @media print {
+            body { background: #fff; padding: 0; margin: 0; }
+            .page { 
+                max-width: 100%; border-radius: 0; padding: 8mm 10mm; box-shadow: none; 
+                height: 100vh; display: flex; flex-direction: column; 
+                page-break-after: avoid; page-break-inside: avoid;
+            }
+            .share-btn { display: none; }
+            .q-options input[type="radio"], .q-options label { pointer-events: none; }
+        }
+        @media screen and (max-width: 600px) { .page { padding: 12px; } }
+
+        :root { --main: #FF8C42; --second: #FFF4E6; --accent: #4CAF50; --purple: #9C27B0; }
+
+        .header { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+        .header-emoji { font-size: 40px; }
+        .header h1 { font-family: 'Fredoka One', cursive; font-size: 26px; color: #444; text-align: center; line-height: 1.1; }
+        .header h1 span { color: var(--main); }
+
+        .block { border: 3px solid #e0e0e0; border-radius: 18px; padding: 12px; margin-bottom: 10px; background: #fafafa; position: relative; }
+        .block-title { font-family: 'Fredoka One', cursive; color: #fff; font-size: 16px; margin-bottom: 6px; display: inline-block; padding: 3px 14px; border-radius: 30px; }
+        
+        .block:nth-of-type(1) .block-title { background: var(--main); }
+        .block:nth-of-type(2) .block-title { background: #42A5F5; }
+        .block:nth-of-type(3) .block-title { background: var(--accent); }
+        .block:nth-of-type(4) .block-title { background: var(--purple); }
+
+        input[type="text"] { 
+            width: 100%; border: none; border-bottom: 2px dotted #aaa; 
+            background: transparent; font-family: 'Comic Neue', cursive; 
+            font-size: 15px; padding: 3px 0; outline: none; color: #333;
+        }
+
+        /* PART 0: TABLE STYLES */
+        .table-wrap { overflow-x: auto; }
+        .chart-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; border: 2px solid #ddd; font-size: 13px; }
+        .chart-table th, .chart-table td { border: 1px solid #ddd; padding: 6px 4px; text-align: center; }
+        .chart-table th { background: #f5f5f5; font-weight: bold; color: #555; }
+        .chart-table td input { text-align: center; border-bottom: 2px dotted #9C27B0; font-size: 14px; width: 90%; margin: 0 auto; }
+        .chart-table .example-cell { background: #f3e5f5; color: #4a148c; font-weight: bold; }
+
+        /* PART 1 STYLES */
+        .question-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding: 3px 0; border-bottom: 1px dashed #eee; }
+        .question-row:last-child { border-bottom: none; }
+        .q-text { flex: 1; font-size: 15px; min-width: 150px; }
+        .q-blank { display: inline-block; width: 70px; border-bottom: 2px solid #999; text-align: center; margin: 0 3px; }
+        .q-options { display: flex; gap: 15px; background: #fff; border: 2px solid var(--main); border-radius: 30px; padding: 1px 12px; margin-left: 6px; }
+        .q-options label { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 15px; font-weight: bold; color: #555; }
+        .q-options input[type="radio"] { accent-color: var(--main); transform: scale(1.1); }
+
+        /* PART 2 STYLES */
+        .fill-item { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-bottom: 4px; background: #fff; padding: 4px 8px; border-radius: 10px; border: 1px solid #e0e0e0; }
+        .fill-item:last-child { margin-bottom: 0; }
+        .f-text { font-size: 14px; }
+        .f-blank { display: inline-block; width: 85px; border-bottom: 2px solid #42A5F5; margin: 0 3px; }
+        .f-blank input { width: 100%; border: none; border-bottom: 2px dotted #42A5F5; background: transparent; text-align: center; font-size: 15px; outline: none; }
+
+        /* PART 3 STYLES - Word Order */
+        .order-item { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 6px; background: #fff; padding: 6px 10px; border-radius: 12px; border: 1px solid #e0e0e0; }
+        .order-item:last-child { margin-bottom: 0; }
+        .o-text { font-size: 14px; font-weight: bold; color: #555; }
+        .o-words { font-size: 14px; color: #2e7d32; background: #e8f5e9; padding: 2px 10px; border-radius: 15px; margin-right: 6px; font-style: italic; }
+        .o-blank { display: inline-block; width: 200px; border-bottom: 2px solid var(--accent); margin: 0 2px; flex: 1; min-width: 100px; }
+        .o-blank input { width: 100%; border: none; border-bottom: 2px dotted var(--accent); background: transparent; font-size: 15px; outline: none; padding: 2px; }
+
+        .footer { border-top: 2px solid #eee; padding-top: 6px; margin-top: 5px; display: flex; align-items: center; justify-content: center; }
+        .share-btn { 
+            background: #25D366; color: #fff; border: none; padding: 8px 15px; border-radius: 30px; 
+            font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 6px; 
+        }
+        .share-btn:active { transform: scale(0.95); }
+        
+        @media (max-width: 480px) {
+            .q-options { margin-left: 0; margin-top: 4px; width: 100%; justify-content: center; }
+            .f-blank { width: 60px; }
+            .o-blank { width: 80px; min-width: 80px; }
+            .chart-table { font-size: 12px; }
+            .chart-table td input { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="header">
+        <div class="header-emoji">🐶</div>
+        <h1>Possessive<br><span>Adjectives & Pronouns</span></h1>
+        <div class="header-emoji">📚</div>
+    </div>
+
+    <!-- PART 0: TABLE -->
+    <div class="block">
+        <div class="block-title">📊 Part 0. Fill in the table</div>
+        <div class="table-wrap">
+            <table class="chart-table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Adjective<br>(+ noun)</th>
+                        <th>Pronoun<br>(alone)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>I</td>
+                        <td class="example-cell"><b>my</b> <span style="font-size:11px; color:#888;">(example)</span></td>
+                        <td><input type="text" id="t1" placeholder="?"></td>
+                    </tr>
+                    <tr>
+                        <td>You</td>
+                        <td><input type="text" id="t2" placeholder="?"></td>
+                        <td><input type="text" id="t3" placeholder="?"></td>
+                    </tr>
+                    <tr>
+                        <td>He</td>
+                        <td><input type="text" id="t4" placeholder="?"></td>
+                        <td><input type="text" id="t5" placeholder="?"></td>
+                    </tr>
+                    <tr>
+                        <td>She</td>
+                        <td><input type="text" id="t6" placeholder="?"></td>
+                        <td><input type="text" id="t7" placeholder="?"></td>
+                    </tr>
+                    <tr>
+                        <td>It</td>
+                        <td><input type="text" id="t8" placeholder="?"></td>
+                        <td><input type="text" id="t9" placeholder="?"></td>
+                    </tr>
+                    <tr>
+                        <td>We</td>
+                        <td><input type="text" id="t10" placeholder="?"></td>
+                        <td><input type="text" id="t11" placeholder="?"></td>
+                    </tr>
+                    <tr>
+                        <td>They</td>
+                        <td><input type="text" id="t12" placeholder="?"></td>
+                        <td><input type="text" id="t13" placeholder="?"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- PART 1: CHOOSE (10 questions) -->
+    <div class="block">
+        <div class="block-title">⭐ Part 1. Choose the right word</div>
+        
+        <div class="question-row">
+            <span class="q-text">This is <span class="q-blank">______</span> school bag.</span>
+            <div class="q-options"><label><input type="radio" name="q1" value="my"> my</label><label><input type="radio" name="q1" value="mine"> mine</label></div>
+        </div>
+        <div class="question-row">
+            <span class="q-text">The red pencil case is <span class="q-blank">______</span>.</span>
+            <div class="q-options"><label><input type="radio" name="q2" value="her"> her</label><label><input type="radio" name="q2" value="hers"> hers</label></div>
+        </div>
+        <div class="question-row">
+            <span class="q-text">Is this <span class="q-blank">______</span> pet hamster?</span>
+            <div class="q-options"><label><input type="radio" name="q3" value="your"> your</label><label><input type="radio" name="q3" value="yours"> yours</label></div>
+        </div>
+        <div class="question-row">
+            <span class="q-text">That house with the garden is <span class="q-blank">______</span>.</span>
+            <div class="q-options"><label><input type="radio" name="q4" value="our"> our</label><label><input type="radio" name="q4" value="ours"> ours</label></div>
+        </div>
+        <div class="question-row">
+            <span class="q-text">This is <span class="q-blank">______</span> dad's new car.</span>
+            <div class="q-options"><label><input type="radio" name="q5" value="their"> their</label><label><input type="radio" name="q5" value="theirs"> theirs</label></div>
+        </div>
+        <div class="question-row">
+            <span class="q-text">These sandwiches are <span class="q-blank">______</span>.</span>
+            <div class="q-options"><label><input type="radio" name="q6" value="my"> my</label><label><input type="radio" name="q6" value="mine"> mine</label></div>
+        </div>
+        <div class="question-row">
+            <span class="q-text">Is that <span class="q-blank">______</span> sister?</span>
+            <div class="q-options"><label><input type="radio" name="q7" value="your"> your</label><label><input type="radio" name="q7" value="yours"> yours</label></div>
+        </div>
+        <div class="question-row">
+            <span class="q-text">This cat is <span class="q-blank">______</span>. It's our cat.</span>
+            <div class="q-options"><label><input type="radio" name="q8" value="our"> our</label><label><input type="radio" name="q8" value="ours"> ours</label></div>
+        </div>
+        <div class="question-row">
+            <span class="q-text">Those are <span class="q-blank">______</span> books, not mine.</span>
+            <div class="q-options"><label><input type="radio" name="q9" value="her"> her</label><label><input type="radio" name="q9" value="hers"> hers</label></div>
+        </div>
+        <div class="question-row">
+            <span class="q-text">This is <span class="q-blank">______</span> mum's favourite dress.</span>
+            <div class="q-options"><label><input type="radio" name="q10" value="their"> their</label><label><input type="radio" name="q10" value="theirs"> theirs</label></div>
+        </div>
+    </div>
+
+    <!-- PART 2: FILL IN (10 questions) - Яркий заголовок -->
+    <div class="block">
+        <div class="block-title" style="background: #42A5F5;">✏️ Part 2. Fill in the blanks</div>
+        <div style="font-size: 13px; color: #888; margin-bottom: 6px;">Use: <b>my, mine, your, yours, her, hers, our, ours, their, theirs, his</b></div>
+        
+        <div class="fill-item"><span class="f-text">1. This is my little sister. </span><span class="f-blank"><input type="text" id="fill1" placeholder="?"></span><span class="f-text"> toys are in the box.</span></div>
+        
+        <div class="fill-item"><span class="f-text">2. My brother likes blue. It's Tom's T-shirt. The blue T-shirt is </span><span class="f-blank"><input type="text" id="fill2" placeholder="?"></span><span class="f-text">.</span></div>
+        
+        <div class="fill-item"><span class="f-text">3. My parents love </span><span class="f-blank"><input type="text" id="fill3" placeholder="?"></span><span class="f-text"> new house.</span></div>
+        
+        <div class="fill-item"><span class="f-text">4. This is Mum's bag. It is </span><span class="f-blank"><input type="text" id="fill4" placeholder="?"></span><span class="f-text">.</span></div>
+        
+        <div class="fill-item"><span class="f-text">5. This is my friend Ann. </span><span class="f-blank"><input type="text" id="fill5" placeholder="?"></span><span class="f-text"> sister is Kate.</span></div>
+        
+        <div class="fill-item"><span class="f-text">6. We have a dog. This bone is </span><span class="f-blank"><input type="text" id="fill6" placeholder="?"></span><span class="f-text">.</span></div>
+        
+        <div class="fill-item"><span class="f-text">7. This is Tom's room. It is </span><span class="f-blank"><input type="text" id="fill7" placeholder="?"></span><span class="f-text">.</span></div>
+        
+        <div class="fill-item"><span class="f-text">8. Is this </span><span class="f-blank"><input type="text" id="fill8" placeholder="?"></span><span class="f-text"> pen or mine?</span></div>
+        
+        <div class="fill-item"><span class="f-text">9. This is my grandpa. </span><span class="f-blank"><input type="text" id="fill9" placeholder="?"></span><span class="f-text"> old car is in the garage.</span></div>
+        
+        <div class="fill-item"><span class="f-text">10. The children are playing with toys. The toys on the floor are </span><span class="f-blank"><input type="text" id="fill10" placeholder="?"></span><span class="f-text">.</span></div>
+    </div>
+
+    <!-- PART 3: WORD ORDER (6 questions) - Яркий заголовок -->
+    <div class="block">
+        <div class="block-title" style="background: #4CAF50;">🧩 Part 3. Put the words in the correct order</div>
+        <div style="font-size: 13px; color: #888; margin-bottom: 6px;">Write the full sentence. <br><b>Tip:</b> Adjective + NOUN (my book) / Pronoun ALONE (It's mine).</div>
+        
+        <div class="order-item">
+            <span class="o-words">( is / this / bag / my )</span>
+            <span class="o-blank"><input type="text" id="ord1" placeholder="Write the sentence..."></span>
+        </div>
+        
+        <div class="order-item">
+            <span class="o-words">( yours / book / is / this )</span>
+            <span class="o-blank"><input type="text" id="ord2" placeholder="Write the sentence..."></span>
+        </div>
+        
+        <div class="order-item">
+            <span class="o-words">( her / is / sister / that )</span>
+            <span class="o-blank"><input type="text" id="ord3" placeholder="Write the sentence..."></span>
+        </div>
+        
+        <div class="order-item">
+            <span class="o-words">( their / are / dogs / these )</span>
+            <span class="o-blank"><input type="text" id="ord4" placeholder="Write the sentence..."></span>
+        </div>
+        
+        <div class="order-item">
+            <span class="o-words">( house / our / is / this )</span>
+            <span class="o-blank"><input type="text" id="ord5" placeholder="Write the sentence..."></span>
+        </div>
+        
+        <div class="order-item">
+            <span class="o-words">( mine / bag / is / this )</span>
+            <span class="o-blank"><input type="text" id="ord6" placeholder="Write the sentence..."></span>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button class="share-btn" onclick="shareResults()">📤 Share with Teacher</button>
+    </div>
+    
+    <script>
+        function shareResults() {
+            // Collect Part 1 (Radio)
+            let answers = [];
+            for(let i=1; i<=10; i++) {
+                let sel = document.querySelector(`input[name="q${i}"]:checked`);
+                answers.push(sel ? sel.value : '—');
+            }
+
+            // Collect all text fields (Part 0, Part 2, Part 3)
+            const textFields = ['t1','t2','t3','t4','t5','t6','t7','t8','t9','t10','t11','t12','t13','fill1','fill2','fill3','fill4','fill5','fill6','fill7','fill8','fill9','fill10','ord1','ord2','ord3','ord4','ord5','ord6'];
+            let text = "📝 Possessives Homework (Spotlight 5):\n\n";
+            
+            text += `📊 Part 0 (Table):\n`;
+            text += `I - my - ${document.getElementById('t1').value || '—'}\n`;
+            text += `You - ${document.getElementById('t2').value || '—'} - ${document.getElementById('t3').value || '—'}\n`;
+            text += `He - ${document.getElementById('t4').value || '—'} - ${document.getElementById('t5').value || '—'}\n`;
+            text += `She - ${document.getElementById('t6').value || '—'} - ${document.getElementById('t7').value || '—'}\n`;
+            text += `It - ${document.getElementById('t8').value || '—'} - ${document.getElementById('t9').value || '—'}\n`;
+            text += `We - ${document.getElementById('t10').value || '—'} - ${document.getElementById('t11').value || '—'}\n`;
+            text += `They - ${document.getElementById('t12').value || '—'} - ${document.getElementById('t13').value || '—'}\n\n`;
+
+            text += `⭐ Part 1:\n`;
+            answers.forEach((val, i) => { text += `${i+1}. ${val}\n`; });
+            
+            text += `\n✏️ Part 2:\n`;
+            textFields.slice(13,23).forEach((id, i) => {
+                const el = document.getElementById(id);
+                text += `${i+1}. ${el ? el.value : '—'}\n`;
+            });
+            
+            text += `\n🧩 Part 3:\n`;
+            textFields.slice(23,29).forEach((id, i) => {
+                const el = document.getElementById(id);
+                text += `${i+1}. ${el ? el.value : '—'}\n`;
+            });
+
+            if(navigator.share) {
+                navigator.share({ title: 'My Homework', text: text });
+            } else {
+                navigator.clipboard.writeText(text).then(() => alert('Copied! Send it to your teacher.'));
+            }
+        }
+    </script>
+</div>
+</body>
+</html>
